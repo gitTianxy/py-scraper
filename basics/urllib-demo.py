@@ -30,7 +30,6 @@ class Urllib2Demo:
         req = urllib2.Request(url, data, headers)
         if method:
             req.get_method = lambda: method
-        ''' TODO
         if proxy:
             proxy_handler = urllib2.ProxyHandler({
                 "http": 'http://localhost:1080',
@@ -38,11 +37,39 @@ class Urllib2Demo:
             })
             opener = urllib2.build_opener(proxy_handler)
             urllib2.install_opener(opener)
-        '''
         resp = urllib2.urlopen(req, timeout=timeout)
         return resp.read()
 
 
+def test_CRUD():
+    """
+    user crud
+    :return:
+    """
+    demo = Urllib2Demo()
+    test_url = 'http://localhost:8088/'
+    path = '/user/list'
+    print demo.open_req(test_url + path, method='GET')
+    path = '/user'
+    print demo.open_req(test_url + path, method='PUT', data={'name': 'kevin', 'age': 18})
+    path = '/user/kevin'
+    print demo.open_req(test_url + path, method='POST', data={'age': 28})
+    path = '/user/kevin'
+    print demo.open_req(test_url + path, method='DELETE')
+
+
+def test_proxy():
+    """
+    request using proxy
+    :return:
+    :return:
+    """
+    demo = Urllib2Demo()
+    test_url = 'https://www.google.com/'
+    print demo.open_req(test_url, proxy=True)
+
+
 if __name__ == '__main__':
     demo = Urllib2Demo()
-    print demo.open_req('http://www.baidu.com/')
+    test_url = 'http://www.baidu.com'
+    print demo.open_req(test_url)
