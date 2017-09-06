@@ -37,13 +37,16 @@ class Urllib2Demo:
             })
             opener = urllib2.build_opener(proxy_handler)
             urllib2.install_opener(opener)
-        resp = urllib2.urlopen(req, timeout=timeout)
-        return resp.read()
+        try:
+            resp = urllib2.urlopen(req, timeout=timeout)
+            return resp.read()
+        except (urllib2.HTTPError, urllib2.URLError) as e:
+            print e
 
 
 def test_CRUD():
     """
-    user crud
+    user crud by http PUT, GET, POST, DELETE
     :return:
     """
     demo = Urllib2Demo()
@@ -67,6 +70,15 @@ def test_proxy():
     demo = Urllib2Demo()
     test_url = 'https://www.google.com/'
     print demo.open_req(test_url, proxy=True)
+
+
+def test_except():
+    """
+    http-error, url-error
+    :return:
+    """
+    demo = Urllib2Demo()
+    demo.open_req('http://www.xxxxxxxxxxxxxxxxxx.com')
 
 
 if __name__ == '__main__':
