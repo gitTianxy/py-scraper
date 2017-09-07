@@ -102,6 +102,3 @@ ENV/
 
 # pycharm
 .idea/
-
-# web
-cookie.txt
